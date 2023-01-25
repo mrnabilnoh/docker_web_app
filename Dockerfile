@@ -1,5 +1,6 @@
 FROM node:lts-alpine3.17
 LABEL maintainer="Nabil Noh <19523841+mrnabilnoh@users.noreply.github.com>"
+LABEL org.opencontainers.image.description DESCRIPTION
 
 # Create app directory
 WORKDIR /usr/src/app
