@@ -1,3 +1,3 @@
-# docker-experiment
+# Example Docker Web App
 
-Experiment about auto build new docker image when new tag push detected through github actions
+Example Docker Web App build with multi os/arch using github actions
