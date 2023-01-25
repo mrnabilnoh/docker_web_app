@@ -17,4 +17,5 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.PAT }}
         DEFAULT_BUMP: patch
+        DEFAULT_BRANCH: main
         WITH_V: true
