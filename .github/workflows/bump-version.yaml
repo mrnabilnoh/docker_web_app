@@ -3,8 +3,33 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
 jobs:
+  pre_job:
+    runs-on: ubuntu-latest
+    
+    # Minimum permissions required by skip-duplicate-actions
+    permissions:
+      actions: write
+      contents: read
+      
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+      
+    steps:
+      - id: skip_check
+        uses: fkirc/skip-duplicate-actions@v5.3.0
+        with:
+          concurrent_skipping: 'same_content_newer'
+          #paths_ignore: '["**/README.md"]'
+          do_not_skip: '["pull_request", "workflow_dispatch"]'
+          
   build:
+    needs: pre_job
+    if: needs.pre_job.outputs.should_skip != 'true'
     runs-on: ubuntu-latest
       
     steps:
