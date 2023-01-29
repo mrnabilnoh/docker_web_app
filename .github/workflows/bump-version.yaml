@@ -86,8 +86,12 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           tagging_message: ${{ needs.build.outputs.new_tag }}
+          # prevent workflow re-trigger on commit push 
+          # reference: https://docs.github.com/en/actions/managing-workflow-runs/skipping-workflow-runs
           commit_message: |
-            chore: automate version ${{ needs.build.outputs.new_tag }}
+            automate: update version ${{ needs.build.outputs.new_tag }}
+
+            [ci skip]
 
   dumpcontext:
     name: Bump Version (dumpcontext)
