@@ -17,7 +17,11 @@ COPY package*.json ./
 
 # RUN npm install
 # If you are building your code for production
-RUN npm ci --omit=dev
+#RUN npm ci --omit=dev
+
+# NOTE: IF NODE_ENV already set to `production`, Yarn will not install any package listed in devDependencies.
+# You actually no need to manually add `--production=true` flag.
+RUN yarn install --production=true --frozen-lockfile
 
 # Bundle app source
 COPY . .
