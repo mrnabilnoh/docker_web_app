@@ -80,23 +80,29 @@ jobs:
           token: ${{ secrets.PAT }}
 
       - name: Update package.json ${{ needs.build.outputs.new_tag }}
-        run: npm version --no-git-tag-version ${{ needs.build.outputs.new_tag }}
+        # run: npm version --no-git-tag-version ${{ needs.build.outputs.new_tag }}
+        run: yarn version --no-git-tag-version --new-version ${{ needs.build.outputs.new_tag }}
 
       - name: Auto Commit with Tag Publish
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           tagging_message: ${{ needs.build.outputs.new_tag }}
+          # prevent workflow re-trigger on commit push 
+          # reference: https://docs.github.com/en/actions/managing-workflow-runs/skipping-workflow-runs
           commit_message: |
-            chore: automate version ${{ needs.build.outputs.new_tag }}
+            automate: update version ${{ needs.build.outputs.new_tag }}
 
-  dumpcontext:
-    name: Bump Version (dumpcontext)
-    runs-on: ubuntu-latest
+            [ci skip]
 
-    steps:
-      - name: Dump GitHub context
-        run: echo '${{ toJSON(github) }}'
-      - name: Dump runner context
-        run: echo '${{ toJSON(runner) }}'
-      - name: Dump needs context
-        run: echo '${{ toJSON(needs) }}'
+  # NOTE: Dump Workflow Context Helper
+  # dumpcontext:
+  #   name: Bump Version (dumpcontext)
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #     - name: Dump GitHub context
+  #       run: echo '${{ toJSON(github) }}'
+  #     - name: Dump runner context
+  #       run: echo '${{ toJSON(runner) }}'
+  #     - name: Dump needs context
+  #       run: echo '${{ toJSON(needs) }}'
