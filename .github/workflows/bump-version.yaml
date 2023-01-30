@@ -93,16 +93,3 @@ jobs:
             automate: update version ${{ needs.build.outputs.new_tag }}
 
             [ci skip]
-
-  # NOTE: Dump Workflow Context Helper
-  # dumpcontext:
-  #   name: Bump Version (dumpcontext)
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - name: Dump GitHub context
-  #       run: echo '${{ toJSON(github) }}'
-  #     - name: Dump runner context
-  #       run: echo '${{ toJSON(runner) }}'
-  #     - name: Dump needs context
-  #       run: echo '${{ toJSON(needs) }}'
