@@ -6,5 +6,6 @@ npm-debug.log
 .github
 .gitignore
 .gitmodules
+.devcontainer
 Dockerfile
 README.md
