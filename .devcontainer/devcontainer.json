@@ -7,14 +7,14 @@
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	"features": {
 		"ghcr.io/devcontainers-contrib/features/zsh-plugins:0": {
-			"plugins": "npm git zsh-autocomplete zsh-autosuggestions",
+			"plugins": "yarn zsh-autocomplete zsh-autosuggestions",
 			"omzPlugins": "https://github.com/marlonrichert/zsh-autocomplete https://github.com/zsh-users/zsh-autosuggestions"
 		}
 	},
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "npm ci",
+	"postCreateCommand": "yarn ci",
 	// Configure tool-specific properties.
 	"customizations": {
 		// Configure properties specific to VS Code.
