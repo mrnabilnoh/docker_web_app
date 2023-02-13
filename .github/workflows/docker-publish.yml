@@ -132,8 +132,8 @@ jobs:
           BUILD_DIGEST: ${{ needs.build.outputs.digest }}
           BUILD_TAGS: ${{ needs.build.outputs.tags }}
         run: |
-          yq -i '.images[0].digest = strenv(BUILD_DIGEST)' ${{ REPO_KUSTOMIZE_PATH }}
-          yq -i '.images[0].newTag = strenv(BUILD_TAGS)' ${{ REPO_KUSTOMIZE_PATH }}
+          yq -i '.images[0].digest = strenv(BUILD_DIGEST)' ${{ secrets.REPO_KUSTOMIZE_PATH }}
+          yq -i '.images[0].newTag = strenv(BUILD_TAGS)' ${{ secrets.REPO_KUSTOMIZE_PATH }}
       
       - name: Auto Commit
         uses: stefanzweifel/git-auto-commit-action@v4
