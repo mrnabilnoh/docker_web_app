@@ -6,12 +6,6 @@ on:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+"
 
-env:
-  # Use docker.io for Docker Hub if empty
-  REGISTRY: docker.io
-  # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
-
 jobs:
   build:
     name: Docker Publish (build)
@@ -24,6 +18,12 @@ jobs:
       # id-token: write
       # This is used to upload sarif files
       security-events: write
+    
+    env:
+      # Use docker.io for Docker Hub if empty
+      REGISTRY: docker.io
+      # github.repository as <account>/<repo>
+      IMAGE_NAME: ${{ github.repository }}
     
     # Map a step output to a job output
     outputs:
@@ -116,6 +116,10 @@ jobs:
     needs: build
     if: (needs.build.outputs.digest != '' && needs.build.outputs.tags != '')
     runs-on: ubuntu-latest
+
+    env:
+      BUILD_DIGEST: ${{ needs.build.outputs.digest }}
+      BUILD_TAGS: ${{ needs.build.outputs.tags }}
     
     steps:
       - name: Checkout Private Repo
@@ -128,9 +132,6 @@ jobs:
         uses: mikefarah/yq@v4.30.8
 
       - name: Update Deployment kustomize
-        env:
-          BUILD_DIGEST: ${{ needs.build.outputs.digest }}
-          BUILD_TAGS: ${{ needs.build.outputs.tags }}
         run: |
           yq -i '.images[0].digest = strenv(BUILD_DIGEST)' ${{ secrets.REPO_KUSTOMIZE_PATH }}
           yq -i '.images[0].newTag = strenv(BUILD_TAGS)' ${{ secrets.REPO_KUSTOMIZE_PATH }}
@@ -141,7 +142,7 @@ jobs:
           # prevent workflow re-trigger on commit push 
           # reference: https://docs.github.com/en/actions/managing-workflow-runs/skipping-workflow-runs
           commit_message: |
-            automate: update deployment image 
+            automate: update deployment image v${{ env.BUILD_TAGS }}
 
             [ci skip]
 
